@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -15,14 +17,18 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/aaa")
+    @GetMapping("/hello")
     String hello() {
-        return "aaa";
+        return "Hello";
     }
 
     @PostMapping
     ResponseEntity<User> create(@RequestBody User user) {
-        System.out.println("Got it");
         return ResponseEntity.ok(userService.create(user));
+    }
+
+    @GetMapping
+    ResponseEntity<List<User>> getAll() {
+        return ResponseEntity.ok(userService.getAll());
     }
 }

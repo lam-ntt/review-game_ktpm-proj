@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserService {
@@ -28,5 +30,10 @@ public class UserService {
 
         User savedUser = userRepository.save(user);
         return savedUser;
+    }
+
+    public List<User> getAll() {
+        List<User> users = userRepository.findAll();
+        return users;
     }
 }
