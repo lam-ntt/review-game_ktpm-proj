@@ -18,5 +18,5 @@ public class User {
     String id;
     String username;
     String password;
-    boolean isAdmin = true;
+    int isAdmin = 1;
 }

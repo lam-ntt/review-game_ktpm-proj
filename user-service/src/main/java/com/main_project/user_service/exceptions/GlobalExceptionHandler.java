@@ -1,6 +1,6 @@
 package com.main_project.user_service.exceptions;
 
-import com.main_project.user_service.enums.ErrorCode;
+import com.main_project.user_service.exceptions.enums.ErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
         ErrorCode errorCode = ErrorCode.UNCATEGORIED;
         ExceptionResponse exceptionResponse = ExceptionResponse.builder()
                 .code(errorCode.getCode())
-                .message(errorCode.getMessage())
+                .message(exception.getMessage())
                 .build();
         return ResponseEntity.status(errorCode.getHttpStatusCode()).body(exceptionResponse);
     }

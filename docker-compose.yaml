@@ -1,0 +1,163 @@
+version: '3.8'
+
+services:
+  registry-service:
+    build:
+      context: ./registry-service
+      dockerfile: Dockerfile
+    container_name: registry-service
+    ports:
+      - "8761:8761"
+    networks:
+      - microservice-network
+
+  mysql-user:
+    image: mysql:8.0
+    container_name: mysql-user-db
+    ports:
+      - "33061:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql@123
+      MYSQL_DATABASE: review_sys-user_service 
+    volumes:
+      - mysql_user_data:/var/lib/mysql
+      - ./user-service/DumpUser20250528.sql:/docker-entrypoint-initdb.d/DumpUser20250528.sql
+    networks:
+      - microservice-network
+
+  mysql-game:
+    image: mysql:8.0
+    container_name: mysql-game-db
+    ports:
+      - "33062:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql@123
+      MYSQL_DATABASE: review_sys-game_service 
+    volumes:
+      - mysql_game_data:/var/lib/mysql
+      - ./game-service/DumpGame20250528.sql:/docker-entrypoint-initdb.d/DumpGame20250528.sql
+    networks:
+      - microservice-network
+
+  mysql-review:
+    image: mysql:8.0
+    container_name: mysql-review-db
+    ports:
+      - "33063:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql@123
+      MYSQL_DATABASE: review_sys-review_service 
+    volumes:
+      - mysql_review_data:/var/lib/mysql
+      - ./review-service/DumpReview20250528.sql:/docker-entrypoint-initdb.d/DumpReview20250528.sql
+    networks:
+      - microservice-network
+
+  user-service:
+    build:
+      context: ./user-service
+    container_name: user-service
+    ports:
+      - "8090:8090" 
+    depends_on:
+      - registry-service
+      - mysql-user
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-user:3306/review_sys-user_service
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=mysql@123
+      - SERVER_PORT=8090
+    networks:
+      - microservice-network
+
+  game-service:
+    build:
+      context: ./game-service
+    container_name: game-service
+    ports:
+      - "8091:8091" 
+    depends_on:
+      - registry-service
+      - mysql-game
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-game:3306/review_sys-game_service
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=mysql@123
+      - SERVER_PORT=8091
+    networks:
+      - microservice-network
+
+  review-service:
+    build:
+      context: ./review-service
+    container_name: review-service
+    ports:
+      - "8092:8092" 
+    depends_on:
+      - registry-service
+      - mysql-review
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-review:3306/review_sys-review_service
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=mysql@123
+      - SERVER_PORT=8092
+    networks:
+      - microservice-network
+
+  statistics-service:
+    build:
+      context: ./statistics-service
+    container_name: statistics-service
+    ports:
+      - "8093:8093" 
+    depends_on:
+      - registry-service
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+    networks:
+      - microservice-network
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    ports:
+      - "8099:8099" 
+    depends_on:
+      - registry-service
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+    networks:
+      - microservice-network
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - registry-service
+      - user-service
+      - auth-service
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry-service:8761/eureka/
+    networks:
+      - microservice-network
+
+networks:
+  microservice-network:
+    driver: bridge
+
+volumes:
+  mysql_user_data:
+    driver: local
+  mysql_game_data:
+    driver: local
+  mysql_review_data:
+    driver: local

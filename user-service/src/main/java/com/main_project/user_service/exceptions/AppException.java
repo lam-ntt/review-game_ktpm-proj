@@ -1,6 +1,6 @@
 package com.main_project.user_service.exceptions;
 
-import com.main_project.user_service.enums.ErrorCode;
+import com.main_project.user_service.exceptions.enums.ErrorCode;
 import lombok.Getter;
 import lombok.Setter;
 

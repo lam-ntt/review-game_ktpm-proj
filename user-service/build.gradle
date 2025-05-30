@@ -39,6 +39,11 @@ dependencies {
 
 	// For bcrypt library
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	implementation 'com.nimbusds:nimbus-jose-jwt:9.1.1'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 }
 
 dependencyManagement {

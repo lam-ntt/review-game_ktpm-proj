@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/main-project.iml" filepath="$PROJECT_DIR$/.idea/main-project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/api-gateway.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api-gateway.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/game-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/game-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/review-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/review-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/server.iml" filepath="$PROJECT_DIR$/.idea/server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/statistics-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/statistics-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/user-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/user-service.main.iml" />
     </modules>
   </component>
 </project>

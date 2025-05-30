@@ -39,6 +39,11 @@ dependencies {
 
 	// For call other service
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// For key
+	implementation 'com.nimbusds:nimbus-jose-jwt:9.37'
 }
 
 dependencyManagement {
